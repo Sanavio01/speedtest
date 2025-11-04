@@ -1,3 +1,0 @@
-- sensor:
-    - name: "IP do Notebook"
-      state: "192.168.31.63"
