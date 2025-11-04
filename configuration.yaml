@@ -1,0 +1,34 @@
+shell_command:
+  run_speedtest: >
+    {% set opt = states('input_select.speedtest_server') %}
+    {% if opt.startswith('Auto') %}
+      speedtest-cli --json > /config/speedtest_result.json
+    {% else %}
+      {% set server_id = opt.split(' - ')[0] %}
+      speedtest-cli --server {{ server_id }} --json > /config/speedtest_result.json
+    {% endif %}
+#########################################################################
+input_select:
+  speedtest_server:
+    name: Servidor Speedtest
+    options:
+      - Auto (mais rápido)
+      - 72275 - Insidesign (Ribeirão Preto)
+      - 43178 - BS Conect (Itapira)
+      - 30132 - Vivo (São Paulo)
+      - 44074 - Algar (Uberlândia)
+      - 21753 - Copel Telecom (Curitiba)
+      - 18511 - Claro (Campinas)
+      - 14511 - TIM (São Paulo)
+      - 61558 - Astanet (São José do Rio Preto)
+      - 17001 - Net Virtua (São Paulo)
+      - 18653 - Oi (São Paulo)
+      - 26303 - HostGator (São Paulo)
+      - 13579 - UOL Diveo (São Paulo)
+      - 33003 - Locaweb (São Paulo)
+      - 15053 - Cloudflare (São Paulo)
+      - 20736 - Google (São Paulo)
+      - 5617 - Amazon (São Paulo)
+      - 5618 - Amazon (São Paulo)
+    initial: Auto (mais rápido)
+    icon: mdi:server-network
