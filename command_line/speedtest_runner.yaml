@@ -1,0 +1,9 @@
+- sensor:
+    name: "Speedtest Runner"
+    unique_id: "speedtest_runner_sensor"
+    command: >
+      sh -c "speedtest-cli --json > /config/speedtest_result.json 2>&1 && echo 'on' || echo 'off'"
+    scan_interval: 3600
+    command_timeout: 120
+    value_template: "{{ value }}"
+    icon: mdi:speedometer

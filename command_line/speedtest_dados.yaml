@@ -1,0 +1,20 @@
+- sensor:
+    name: "Speedtest Dados"
+    unique_id: "speedtest_dados"
+    command: |
+      if [ -f /config/speedtest_result.json ] && [ -s /config/speedtest_result.json ]; then
+        cat /config/speedtest_result.json
+      else
+        echo '{"download":0,"upload":0,"ping":0,"server":{"sponsor":"Nenhum","name":"Desconhecido","country":"BR","d":0,"latency":0}}'
+      fi
+    scan_interval: 3600
+    command_timeout: 30
+    value_template: >
+      {% set data = value | from_json(default={'download': 0, 'upload': 0, 'ping': 0}) %}
+      {{ (data.get('download', 0) / 1000000) | round(2) }}
+    unit_of_measurement: "Mbps"
+    json_attributes:
+      - download
+      - upload
+      - ping
+      - server

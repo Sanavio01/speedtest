@@ -1,0 +1,64 @@
+platform: template
+fans:
+  ventilador_suite:
+    friendly_name: "Ventilador da Suite"
+    unique_id: ventilador_suite_fan
+    value_template: "{{ is_state('switch.ventilador_da_suite', 'on') }}"
+    turn_on:
+      service: switch.turn_on
+      target:
+        entity_id: switch.ventilador_da_suite
+    turn_off:
+      service: switch.turn_off
+      target:
+        entity_id: switch.ventilador_da_suite
+    set_percentage:
+      service: number.set_value
+      data:
+        value: >
+          {% set p = percentage | int %}
+          {% if p <= 20 %} 1
+          {% elif p <= 40 %} 2
+          {% elif p <= 60 %} 3
+          {% elif p <= 80 %} 4
+          {% else %} 5
+          {% endif %}
+      target:
+        entity_id: number.ventilador_da_suite_fan_speed
+    percentage_template: >
+      {% set v = states('number.ventilador_da_suite_fan_speed') %}
+      {{ (v | int(0) * 20) }}
+
+    speed_count: 5
+  #######################################################################################################################
+  ################################## Ventilador do Quarto ###############################################################
+  #######################################################################################################################
+  ventilador_quarto:
+    friendly_name: "Ventilador do Quarto"
+    unique_id: ventilador_quarto_fan
+    value_template: "{{ is_state('switch.ventilador_do_quarto', 'on') }}"
+    turn_on:
+      service: switch.turn_on
+      target:
+        entity_id: switch.ventilador_do_quarto
+    turn_off:
+      service: switch.turn_off
+      target:
+        entity_id: switch.ventilador_do_quarto
+    set_percentage:
+      service: number.set_value
+      data:
+        value: >
+          {% set p = percentage | int %}
+          {% if p <= 20 %} 1
+          {% elif p <= 40 %} 2
+          {% elif p <= 60 %} 3
+          {% elif p <= 80 %} 4
+          {% else %} 5
+          {% endif %}
+      target:
+        entity_id: number.ventilador_do_quarto_fan_speed
+    percentage_template: >
+      {% set v = states('number.ventilador_do_quarto_fan_speed') %}
+       {{ (v | int(0) * 20) }}
+    speed_count: 5
